@@ -4,966 +4,641 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黄飞鹏 | 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #00f5ff;
-            --secondary: #7b2fff;
-            --accent: #ff2d95;
-            --bg-dark: #0a0a1a;
-            --bg-card: rgba(15, 15, 35, 0.8);
-            --text: #e0e0ff;
-        }
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* 粒子背景 */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        
-        /* 网格背景 */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        /* 主内容 */
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        /* 头部英雄区域 */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0.1;
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.1; }
-            50% { transform: scale(1.2); opacity: 0.2; }
-        }
-        
-        .avatar-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        
-        .avatar {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--bg-dark);
-            position: relative;
-            z-index: 2;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .avatar-ring {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            opacity: 0.5;
-            animation: spin 10s linear infinite;
-        }
-        
-        .avatar-ring::after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--primary);
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 50px rgba(0, 245, 255, 0.3);
-        }
-        
-        .title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
-        
-        /* 打字机效果 */
-        .typewriter {
-            font-size: 1.2rem;
-            color: var(--text);
-            min-height: 2rem;
-        }
-        
-        .typewriter .cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: var(--primary);
-            margin-left: 5px;
-            animation: blink 1s infinite;
-            vertical-align: text-bottom;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        
-        /* 滚动提示 */
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-        }
-        
-        .scroll-hint svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--primary);
-            opacity: 0.6;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-        
-        /* 分隔线 */
-        .section-divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            margin: 4rem 0;
-            position: relative;
-        }
-        
-        .section-divider::after {
-            content: '◆';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg-dark);
-            padding: 0 1rem;
-            color: var(--primary);
-        }
-        
-        /* 区块标题 */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .section-title::before,
-        .section-title::after {
-            content: '//';
-            color: var(--secondary);
-            margin: 0 1rem;
-        }
-        
-        /* 关于我 */
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .about-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 245, 255, 0.1);
-            border-radius: 10px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-        
-        .about-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.1);
-        }
-        
-        .about-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        
-        .about-card p {
-            line-height: 1.8;
-            color: rgba(224, 224, 255, 0.8);
-        }
-        
-        /* 技能区域 */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        
-        .skill-category {
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 245, 255, 0.1);
-            border-radius: 10px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        .skill-category h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        .skill-item {
-            margin-bottom: 1.5rem;
-        }
-        
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        
-        .skill-name {
-            color: var(--text);
-        }
-        
-        .skill-percent {
-            color: var(--primary);
-            font-family: 'Orbitron', sans-serif;
-        }
-        
-        .skill-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            width: 0;
-            transition: width 1.5s ease;
-            position: relative;
-        }
-        
-        .skill-progress::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 10px;
-            height: 100%;
-            background: white;
-            filter: blur(3px);
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        
-        /* 经历时间线 */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
-            transform: translateX(-50%);
-        }
-        
-        .timeline-item {
-            padding: 2rem;
-            position: relative;
-            width: 45%;
-        }
-        
-        .timeline-item:nth-child(odd) {
-            margin-left: 5%;
-        }
-        
-        .timeline-item:nth-child(even) {
-            margin-left: 50%;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 2.5rem;
-            width: 15px;
-            height: 15px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--primary);
-        }
-        
-        .timeline-item:nth-child(odd)::before {
-            right: -8%;
-        }
-        
-        .timeline-item:nth-child(even)::before {
-            left: -8%;
-        }
-        
-        .timeline-content {
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 245, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        .timeline-date {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-title {
-            font-size: 1.2rem;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-desc {
-            color: rgba(224, 224, 255, 0.7);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        /* 联系方式 */
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 245, 255, 0.1);
-            border-radius: 50px;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .contact-item:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.2);
-            color: var(--primary);
-        }
-        
-        .contact-item svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--primary);
-        }
-        
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            color: rgba(224, 224, 255, 0.5);
-            font-size: 0.9rem;
-        }
-        
-        footer .heartbeat {
-            color: var(--accent);
-            animation: heartbeat 1.5s infinite;
-            display: inline-block;
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .name { font-size: 2.5rem; }
-            .title { font-size: 1rem; letter-spacing: 0.3em; }
-            .avatar { width: 120px; height: 120px; font-size: 3rem; }
-            
-            .timeline::before { left: 20px; }
-            .timeline-item { width: 100%; margin-left: 50px !important; }
-            .timeline-item::before { left: -40px !important; right: auto !important; }
-        }
-        
-        /* 数字动画 */
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 245, 255, 0.1);
-            border-radius: 10px;
-        }
-        
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            display: block;
-        }
-        
-        .stat-label {
-            color: rgba(224, 224, 255, 0.7);
-            margin-top: 0.5rem;
-        }
-        
-        /* 入场动画 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg:#050510;--cyan:#00e5ff;--purple:#a855f7;--pink:#ec4899;
+            --card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.06);
+            --text:#e2e8f0;--dim:#64748b;
+        }
+        html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--cyan) var(--bg)}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
+        body{font-family:'Noto Sans SC','Space Grotesk',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+        /* 自定义光标 */
+        .cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:99999;transition:transform .1s;mix-blend-mode:difference}
+        .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,229,255,.5);border-radius:50%;pointer-events:none;z-index:99998;transition:transform .15s ease-out}
+
+        /* 背景动画层 */
+        .bg-layer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden}
+        .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:orbFloat 20s ease-in-out infinite}
+        .orb-1{width:600px;height:600px;background:var(--cyan);top:-200px;left:-100px;animation-delay:0s}
+        .orb-2{width:500px;height:500px;background:var(--purple);bottom:-200px;right:-100px;animation-delay:-7s}
+        .orb-3{width:400px;height:400px;background:var(--pink);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s}
+        @keyframes orbFloat{
+            0%,100%{transform:translate(0,0) scale(1)}
+            25%{transform:translate(50px,-30px) scale(1.1)}
+            50%{transform:translate(-30px,50px) scale(.9)}
+            75%{transform:translate(30px,30px) scale(1.05)}
+        }
+
+        /* 网格 */
+        .grid-overlay{position:fixed;top:0;left:0;width:100%;height:100%;
+            background-image:
+                linear-gradient(rgba(0,229,255,.02) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(0,229,255,.02) 1px,transparent 1px);
+            background-size:60px 60px;z-index:1;pointer-events:none}
+
+        /* 噪点纹理 */
+        .noise{position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:.03;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat:repeat;background-size:256px}
+
+        /* 扫描线 */
+        .scanline{position:fixed;top:0;left:0;width:100%;height:4px;
+            background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+            opacity:.06;z-index:3;pointer-events:none;animation:scanMove 4s linear infinite}
+        @keyframes scanMove{0%{top:-4px}100%{top:100%}}
+
+        /* 主容器 */
+        .main{position:relative;z-index:10}
+
+        /* ===== NAV ===== */
+        nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.5rem 3rem;
+            display:flex;justify-content:space-between;align-items:center;
+            backdrop-filter:blur(20px);background:rgba(5,5,16,.6);
+            border-bottom:1px solid var(--border);transition:all .3s}
+        nav.scrolled{padding:1rem 3rem;background:rgba(5,5,16,.9)}
+        .logo{font-family:'Space Grotesk';font-weight:700;font-size:1.2rem;
+            background:linear-gradient(135deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nav-links{display:flex;gap:2rem;list-style:none}
+        .nav-links a{color:var(--dim);text-decoration:none;font-size:.9rem;
+            letter-spacing:.05em;transition:color .3s;position:relative}
+        .nav-links a:hover{color:var(--cyan)}
+        .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+            background:var(--cyan);transition:width .3s}
+        .nav-links a:hover::after{width:100%}
+
+        /* ===== HERO ===== */
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+            align-items:center;text-align:center;padding:2rem;position:relative}
+        .hero-content{max-width:900px}
+        .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;
+            border:1px solid rgba(0,229,255,.2);border-radius:100px;
+            font-size:.8rem;color:var(--cyan);margin-bottom:2rem;
+            backdrop-filter:blur(10px);background:rgba(0,229,255,.05);
+            animation:fadeInUp .8s ease-out}
+        .badge .dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;
+            animation:blink 2s infinite}
+
+        /* GLITCH */
+        .glitch-wrapper{position:relative;display:inline-block}
+        .name{font-family:'Space Grotesk';font-size:clamp(3rem,8vw,6rem);font-weight:900;
+            color:#fff;line-height:1.1;margin-bottom:1rem;position:relative}
+        .name .glitch{position:relative;display:inline-block}
+        .name .glitch::before,.name .glitch::after{content:attr(data-text);
+            position:absolute;top:0;left:0;width:100%;height:100%}
+        .name .glitch::before{color:var(--cyan);z-index:-1;animation:glitch1 3s infinite}
+        .name .glitch::after{color:var(--pink);z-index:-2;animation:glitch2 3s infinite}
+        @keyframes glitch1{
+            0%,90%,100%{clip-path:inset(0 0 0 0);transform:translate(0)}
+            92%{clip-path:inset(20% 0 40% 0);transform:translate(-4px,2px)}
+            94%{clip-path:inset(60% 0 10% 0);transform:translate(4px,-2px)}
+            96%{clip-path:inset(40% 0 30% 0);transform:translate(-2px,4px)}
+            98%{clip-path:inset(10% 0 70% 0);transform:translate(2px,-4px)}
+        }
+        @keyframes glitch2{
+            0%,90%,100%{clip-path:inset(0 0 0 0);transform:translate(0)}
+            91%{clip-path:inset(50% 0 20% 0);transform:translate(3px,-3px)}
+            93%{clip-path:inset(10% 0 60% 0);transform:translate(-3px,3px)}
+            95%{clip-path:inset(70% 0 5% 0);transform:translate(5px,1px)}
+            97%{clip-path:inset(30% 0 40% 0);transform:translate(-5px,-1px)}
+        }
+
+        .subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--dim);
+            letter-spacing:.15em;margin-bottom:2.5rem;animation:fadeInUp .8s ease-out .2s both}
+        .tagline{font-size:1.1rem;color:rgba(255,255,255,.7);line-height:1.8;
+            max-width:600px;margin:0 auto 3rem;animation:fadeInUp .8s ease-out .4s both}
+
+        /* 打字机 */
+        .typewriter-container{min-height:2rem;margin-bottom:3rem;
+            animation:fadeInUp .8s ease-out .6s both}
+        .typewriter-text{font-family:'Space Grotesk';font-size:1.1rem;color:var(--cyan)}
+        .typewriter-cursor{display:inline-block;width:2px;height:1.2em;background:var(--cyan);
+            margin-left:4px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+
+        /* CTA按钮组 */
+        .cta-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+            animation:fadeInUp .8s ease-out .8s both}
+        .btn{padding:.9rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;
+            text-decoration:none;transition:all .3s;position:relative;overflow:hidden;cursor:none}
+        .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#000;
+            box-shadow:0 0 30px rgba(0,229,255,.2)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,229,255,.4)}
+        .btn-ghost{border:1px solid rgba(255,255,255,.15);color:var(--text);
+            backdrop-filter:blur(10px);background:rgba(255,255,255,.02)}
+        .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+
+        /* 滚动指示器 */
+        .scroll-indicator{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+            display:flex;flex-direction:column;align-items:center;gap:.5rem;
+            animation:fadeInUp .8s ease-out 1s both}
+        .scroll-indicator span{font-size:.75rem;color:var(--dim);letter-spacing:.2em;text-transform:uppercase}
+        .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--cyan),transparent);
+            animation:scrollPulse 2s ease-in-out infinite}
+        @keyframes scrollPulse{0%,100%{opacity:.3;height:40px}50%{opacity:1;height:60px}}
+
+        /* ===== SECTIONS ===== */
+        section{padding:6rem 2rem}
+        .container{max-width:1100px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:4rem}
+        .section-num{font-family:'Space Grotesk';font-size:.8rem;color:var(--cyan);
+            letter-spacing:.3em;margin-bottom:.5rem}
+        .section-title{font-size:2.2rem;font-weight:700;margin-bottom:1rem}
+        .section-line{width:60px;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));
+            margin:0 auto}
+
+        /* ===== STATS ===== */
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:1.5rem;margin-bottom:0;padding:4rem 2rem}
+        .stat-card{text-align:center;padding:2.5rem 1.5rem;border-radius:16px;
+            background:var(--card);border:1px solid var(--border);
+            backdrop-filter:blur(10px);transition:all .4s}
+        .stat-card:hover{border-color:rgba(0,229,255,.2);transform:translateY(-4px);
+            box-shadow:0 20px 40px rgba(0,0,0,.3)}
+        .stat-number{font-family:'Space Grotesk';font-size:3rem;font-weight:700;
+            background:linear-gradient(135deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-label{color:var(--dim);margin-top:.5rem;font-size:.9rem}
+
+        /* ===== ABOUT ===== */
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+        .about-visual{position:relative;display:flex;justify-content:center;align-items:center}
+        .about-hexagon{width:280px;height:280px;position:relative}
+        .hex-ring{position:absolute;inset:0;border:1px solid rgba(0,229,255,.15);border-radius:50%;
+            animation:hexSpin 20s linear infinite}
+        .hex-ring:nth-child(2){inset:20px;animation-direction:reverse;animation-duration:15s;
+            border-color:rgba(168,85,247,.15)}
+        .hex-ring:nth-child(3){inset:40px;animation-duration:25s;border-color:rgba(236,72,153,.1)}
+        .hex-ring::before{content:'';position:absolute;top:-3px;left:50%;width:6px;height:6px;
+            background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan)}
+        .hex-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            font-size:4rem}
+        @keyframes hexSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+        .about-text h3{font-size:1.5rem;margin-bottom:1rem;
+            background:linear-gradient(90deg,#fff,var(--cyan));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .about-text p{color:var(--dim);line-height:1.9;margin-bottom:1.5rem}
+        .about-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+        .tag{padding:.4rem 1rem;border-radius:100px;font-size:.8rem;
+            border:1px solid rgba(0,229,255,.15);color:var(--cyan);
+            background:rgba(0,229,255,.05)}
+
+        /* ===== SKILLS ===== */
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+        .skill-card{padding:2rem;border-radius:16px;background:var(--card);
+            border:1px solid var(--border);backdrop-filter:blur(10px);
+            transition:all .4s;position:relative;overflow:hidden}
+        .skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+            background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+            transform:scaleX(0);transition:transform .4s;transform-origin:left}
+        .skill-card:hover::before{transform:scaleX(1)}
+        .skill-card:hover{border-color:rgba(0,229,255,.15);transform:translateY(-4px)}
+        .skill-card-icon{font-size:2rem;margin-bottom:1rem}
+        .skill-card h3{font-size:1.1rem;margin-bottom:1.2rem;color:#fff}
+        .skill-bar-wrap{margin-bottom:1rem}
+        .skill-bar-info{display:flex;justify-content:space-between;margin-bottom:.4rem}
+        .skill-bar-name{font-size:.85rem;color:var(--text)}
+        .skill-bar-pct{font-family:'Space Grotesk';font-size:.85rem;color:var(--cyan)}
+        .skill-bar-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+        .skill-bar-fill{height:100%;border-radius:2px;width:0;
+            background:linear-gradient(90deg,var(--cyan),var(--purple));
+            transition:width 1.2s cubic-bezier(.22,1,.36,1);position:relative}
+        .skill-bar-fill::after{content:'';position:absolute;right:0;top:-2px;bottom:-2px;
+            width:8px;background:var(--cyan);border-radius:50%;
+            box-shadow:0 0 12px var(--cyan);opacity:0;transition:opacity .3s}
+        .skill-bar-fill.active::after{opacity:1}
+
+        /* ===== TIMELINE ===== */
+        .timeline{position:relative;padding:2rem 0}
+        .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
+            background:linear-gradient(to bottom,transparent,var(--cyan),var(--purple),transparent);
+            transform:translateX(-50%)}
+        .tl-item{display:flex;align-items:flex-start;margin-bottom:3rem;position:relative}
+        .tl-item:nth-child(odd){flex-direction:row-reverse}
+        .tl-dot{position:absolute;left:50%;transform:translateX(-50%);width:14px;height:14px;
+            background:var(--bg);border:2px solid var(--cyan);border-radius:50%;
+            z-index:2;box-shadow:0 0 20px rgba(0,229,255,.3)}
+        .tl-content{width:45%;padding:1.8rem;border-radius:16px;background:var(--card);
+            border:1px solid var(--border);backdrop-filter:blur(10px);
+            transition:all .4s}
+        .tl-content:hover{border-color:rgba(0,229,255,.2);transform:translateY(-2px);
+            box-shadow:0 15px 40px rgba(0,0,0,.2)}
+        .tl-date{font-family:'Space Grotesk';font-size:.8rem;color:var(--cyan);
+            letter-spacing:.1em;margin-bottom:.5rem}
+        .tl-title{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+        .tl-desc{font-size:.9rem;color:var(--dim);line-height:1.7}
+
+        /* ===== CONTACT ===== */
+        .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+        .contact-card{display:flex;align-items:center;gap:1.2rem;padding:1.5rem;
+            border-radius:16px;background:var(--card);border:1px solid var(--border);
+            text-decoration:none;color:var(--text);backdrop-filter:blur(10px);
+            transition:all .4s}
+        .contact-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-4px);
+            box-shadow:0 20px 40px rgba(0,0,0,.2)}
+        .contact-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+            border-radius:12px;background:rgba(0,229,255,.08);font-size:1.3rem;flex-shrink:0}
+        .contact-info .contact-label{font-size:.75rem;color:var(--dim);letter-spacing:.1em;
+            text-transform:uppercase;margin-bottom:.2rem}
+        .contact-info .contact-value{font-weight:600}
+
+        /* ===== FOOTER ===== */
+        footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--border)}
+        footer p{color:var(--dim);font-size:.85rem}
+        footer .heart{color:var(--pink);display:inline-block;animation:heartbeat 1.5s infinite}
+        @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+        @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ===== REVEAL ANIMATIONS ===== */
+        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.22,1,.36,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+        .reveal-delay-1{transition-delay:.1s}
+        .reveal-delay-2{transition-delay:.2s}
+        .reveal-delay-3{transition-delay:.3s}
+        .reveal-delay-4{transition-delay:.4s}
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px){
+            nav{padding:1rem 1.5rem}
+            .nav-links{display:none}
+            .about-grid{grid-template-columns:1fr}
+            .about-visual{order:1}
+            .about-text{order:2}
+            .timeline::before{left:20px}
+            .tl-item,.tl-item:nth-child(odd){flex-direction:column;padding-left:50px}
+            .tl-dot{left:20px;transform:none}
+            .tl-content{width:100%}
+            .stat-number{font-size:2.2rem}
+            .name{font-size:2.5rem}
+            section{padding:4rem 1.2rem}
         }
     </style>
 </head>
 <body>
-    <canvas id="particles-canvas"></canvas>
-    <div class="grid-bg"></div>
-    
-    <div class="container">
-        <!-- 英雄区域 -->
+    <!-- 自定义光标 -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- 背景 -->
+    <div class="bg-layer">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="noise"></div>
+    <div class="scanline"></div>
+
+    <!-- 导航 -->
+    <nav id="navbar">
+        <div class="logo">HFP.DEV</div>
+        <ul class="nav-links">
+            <li><a href="#about">关于</a></li>
+            <li><a href="#skills">技能</a></li>
+            <li><a href="#experience">经历</a></li>
+            <li><a href="#contact">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="main">
+        <!-- HERO -->
         <section class="hero">
-            <div class="avatar-container">
-                <div class="avatar">鹏</div>
-                <div class="avatar-ring"></div>
+            <div class="hero-content">
+                <div class="badge"><span class="dot"></span> 开放合作中</div>
+                <h1 class="name">
+                    <span class="glitch" data-text="黄飞鹏">黄飞鹏</span>
+                </h1>
+                <p class="subtitle">产品经理 · Product Manager</p>
+                <p class="tagline">
+                    以数据为驱动，以用户为中心。<br>
+                    将复杂业务逻辑转化为简洁优雅的产品体验。
+                </p>
+                <div class="typewriter-container">
+                    <span class="typewriter-text" id="typewriter"></span>
+                    <span class="typewriter-cursor"></span>
+                </div>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">取得联系</a>
+                    <a href="#experience" class="btn btn-ghost">查看经历</a>
+                </div>
             </div>
-            
-            <h1 class="name">黄飞鹏</h1>
-            <p class="title">Product Manager</p>
-            
-            <div class="typewriter">
-                <span id="typewriter-text"></span>
-                <span class="cursor"></span>
-            </div>
-            
-            <div class="scroll-hint">
-                <svg viewBox="0 0 24 24">
-                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                </svg>
+            <div class="scroll-indicator">
+                <span>向下滚动</span>
+                <div class="scroll-line"></div>
             </div>
         </section>
-        
-        <!-- 统计数据 -->
-        <section class="fade-in">
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="5">0</span>
-                    <div class="stat-label">年产品经验</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="20">0</span>
-                    <div class="stat-label">主导项目</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="100">0</span>
-                    <div class="stat-label">需求文档</div>
-                </div>
+
+        <!-- 数据统计 -->
+        <section class="stats" id="stats">
+            <div class="stat-card reveal">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">年产品经验</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-label">主导项目数</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">输出需求文档</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-3">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">万级用户产品</div>
             </div>
         </section>
-        
-        <div class="section-divider"></div>
-        
+
         <!-- 关于我 -->
-        <section class="fade-in">
-            <h2 class="section-title">关于我</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <h3>🎯 产品思维</h3>
-                    <p>以用户为中心，通过数据分析驱动产品决策。善于洞察用户需求，将复杂的业务逻辑转化为简洁优雅的产品方案。</p>
+        <section id="about">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-num">01</div>
+                    <h2 class="section-title">关于我</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div class="about-card">
-                    <h3>🔬 技术理解</h3>
-                    <p>具备扎实的技术背景，能够与研发团队高效沟通。熟悉前后端架构、数据库设计、API 接口等技术细节。</p>
-                </div>
-                <div class="about-card">
-                    <h3>📊 数据驱动</h3>
-                    <p>擅长通过数据埋点、A/B 测试、用户行为分析等方法，量化产品效果，持续优化用户体验和业务指标。</p>
-                </div>
-                <div class="about-card">
-                    <h3>🚀 项目管理</h3>
-                    <p>精通敏捷开发流程，善于协调跨部门资源，确保产品按时高质量交付。具备优秀的风险预判和问题解决能力。</p>
+                <div class="about-grid">
+                    <div class="about-visual reveal">
+                        <div class="about-hexagon">
+                            <div class="hex-ring"></div>
+                            <div class="hex-ring"></div>
+                            <div class="hex-ring"></div>
+                            <div class="hex-icon">🚀</div>
+                        </div>
+                    </div>
+                    <div class="about-text reveal reveal-delay-2">
+                        <h3>用产品思维连接用户与技术</h3>
+                        <p>
+                            5年产品经验，擅长从0到1的产品设计与落地。精通B端SaaS产品架构，
+                            具备扎实的技术理解力和数据分析能力。善于洞察用户需求，
+                            将复杂的业务场景转化为优雅的产品方案。
+                        </p>
+                        <p>
+                            坚信好的产品源于对用户的深度理解与对数据的极致追求。
+                            在每一个项目中，我都致力于打造既有商业价值又有用户体验的解决方案。
+                        </p>
+                        <div class="about-tags">
+                            <span class="tag">需求分析</span>
+                            <span class="tag">用户研究</span>
+                            <span class="tag">数据驱动</span>
+                            <span class="tag">敏捷开发</span>
+                            <span class="tag">B端SaaS</span>
+                            <span class="tag">AI产品</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        
-        <div class="section-divider"></div>
-        
+
         <!-- 技能 -->
-        <section class="fade-in">
-            <h2 class="section-title">技能矩阵</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>产品设计</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">需求分析</span>
-                            <span class="skill-percent">95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">原型设计</span>
-                            <span class="skill-percent">90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">用户研究</span>
-                            <span class="skill-percent">85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
-                        </div>
-                    </div>
+        <section id="skills">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-num">02</div>
+                    <h2 class="section-title">技能矩阵</h2>
+                    <div class="section-line"></div>
                 </div>
-                
-                <div class="skill-category">
-                    <h3>数据分析</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">SQL</span>
-                            <span class="skill-percent">80%</span>
+                <div class="skills-grid">
+                    <div class="skill-card reveal">
+                        <div class="skill-card-icon">🎯</div>
+                        <h3>产品设计</h3>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">需求分析</span><span class="skill-bar-pct">95%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="80"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">原型设计</span><span class="skill-bar-pct">90%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
                         </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Python</span>
-                            <span class="skill-percent">75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="75"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">用户研究</span><span class="skill-bar-pct">85%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
                         </div>
                     </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">数据可视化</span>
-                            <span class="skill-percent">85%</span>
+                    <div class="skill-card reveal reveal-delay-1">
+                        <div class="skill-card-icon">📊</div>
+                        <h3>数据分析</h3>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">SQL 查询</span><span class="skill-bar-pct">80%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">Python</span><span class="skill-bar-pct">75%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>工具链</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Figma / Sketch</span>
-                            <span class="skill-percent">90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">数据可视化</span><span class="skill-bar-pct">85%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
                         </div>
                     </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Jira / Tapd</span>
-                            <span class="skill-percent">95%</span>
+                    <div class="skill-card reveal reveal-delay-2">
+                        <div class="skill-card-icon">🛠️</div>
+                        <h3>工具链</h3>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">Figma / Sketch</span><span class="skill-bar-pct">90%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">Jira / Tapd</span><span class="skill-bar-pct">95%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
                         </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Axure / 墨刀</span>
-                            <span class="skill-percent">85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85"></div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-bar-info"><span class="skill-bar-name">Axure / 墨刀</span><span class="skill-bar-pct">85%</span></div>
+                            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <div class="section-divider"></div>
-        
+
         <!-- 经历 -->
-        <section class="fade-in">
-            <h2 class="section-title">工作经历</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2023 - 至今</div>
-                        <div class="timeline-title">高级产品经理</div>
-                        <div class="timeline-desc">负责核心产品线规划与落地，主导多个从 0 到 1 的产品项目，实现用户增长 200%。</div>
-                    </div>
+        <section id="experience">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-num">03</div>
+                    <h2 class="section-title">工作经历</h2>
+                    <div class="section-line"></div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2021 - 2023</div>
-                        <div class="timeline-title">产品经理</div>
-                        <div class="timeline-desc">独立负责 B 端 SaaS 产品，完成产品架构升级，客户满意度提升 40%。</div>
+                <div class="timeline">
+                    <div class="tl-item reveal">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <div class="tl-date">2023 — 至今</div>
+                            <div class="tl-title">高级产品经理</div>
+                            <div class="tl-desc">负责核心产品线规划与落地，主导多个从0到1的产品项目，推动用户增长200%，建立完整的产品方法论体系。</div>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2020 - 2021</div>
-                        <div class="timeline-title">产品助理</div>
-                        <div class="timeline-desc">参与需求调研与竞品分析，协助完成多个版本迭代，快速成长。</div>
+                    <div class="tl-item reveal">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <div class="tl-date">2021 — 2023</div>
+                            <div class="tl-title">产品经理</div>
+                            <div class="tl-desc">独立负责B端SaaS产品，完成产品架构升级重构，客户满意度提升40%，ARR增长150%。</div>
+                        </div>
+                    </div>
+                    <div class="tl-item reveal">
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <div class="tl-date">2020 — 2021</div>
+                            <div class="tl-title">产品助理</div>
+                            <div class="tl-desc">参与需求调研与竞品分析，协助完成多个版本迭代，快速建立产品思维与用户洞察力。</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <div class="section-divider"></div>
-        
-        <!-- 联系方式 -->
-        <section class="fade-in">
-            <h2 class="section-title">联系我</h2>
-            <div class="contact-links">
-                <a href="https://github.com/hfp0309" class="contact-item" target="_blank">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                </a>
-                <a href="mailto:hfp0309@example.com" class="contact-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                    Email
-                </a>
-                <a href="https://www.linkedin.com/in/hfp0309" class="contact-item" target="_blank">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                    </svg>
-                    LinkedIn
-                </a>
+
+        <!-- 联系 -->
+        <section id="contact">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-num">04</div>
+                    <h2 class="section-title">联系我</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="contact-grid">
+                    <a href="https://github.com/hfp0309" target="_blank" class="contact-card reveal">
+                        <div class="contact-icon">🐙</div>
+                        <div class="contact-info">
+                            <div class="contact-label">GitHub</div>
+                            <div class="contact-value">hfp0309</div>
+                        </div>
+                    </a>
+                    <a href="mailto:hfp0309@gmail.com" class="contact-card reveal reveal-delay-1">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-info">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">hfp0309@gmail.com</div>
+                        </div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/hfp0309" target="_blank" class="contact-card reveal reveal-delay-2">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-info">
+                            <div class="contact-label">LinkedIn</div>
+                            <div class="contact-value">hfp0309</div>
+                        </div>
+                    </a>
+                    <a href="https://weixin.qq.com" class="contact-card reveal reveal-delay-3">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-info">
+                            <div class="contact-label">微信</div>
+                            <div class="contact-value">hfp0309</div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </section>
-        
+
         <!-- 页脚 -->
         <footer>
-            <p>用 <span class="heartbeat">❤</span> 构建 | © 2024 黄飞鹏</p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Powered by GitHub Pages</p>
+            <p>用 <span class="heart">❤</span> 构建 · © 2024 黄飞鹏 · Powered by GitHub Pages</p>
         </footer>
     </div>
-    
+
     <script>
-        // 粒子动画
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // ===== 自定义光标 =====
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            dot.style.left = mouseX - 4 + 'px';
+            dot.style.top = mouseY - 4 + 'px';
+        });
+
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            ring.style.left = ringX - 18 + 'px';
+            ring.style.top = ringY - 18 + 'px';
+            requestAnimationFrame(animateRing);
         }
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            
-            draw() {
-                ctx.fillStyle = `rgba(0, 245, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        function initParticles() {
-            particles = [];
-            const numParticles = Math.min(100, Math.floor(canvas.width * canvas.height / 10000));
-            for (let i = 0; i < numParticles; i++) {
-                particles.push(new Particle());
-            }
-        }
-        
-        function connectParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 150) {
-                        ctx.strokeStyle = `rgba(0, 245, 255, ${0.1 * (1 - distance / 150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-        
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            connectParticles();
-            requestAnimationFrame(animateParticles);
-        }
-        
-        initParticles();
-        animateParticles();
-        
-        // 打字机效果
-        const typewriterTexts = [
-            '用产品思维解决复杂问题',
-            '数据驱动，用户至上',
-            '从需求到落地的完整闭环',
-            '持续学习，持续进化'
+        animateRing();
+
+        // hover 效果
+        document.querySelectorAll('a, .btn, .skill-card, .contact-card, .stat-card, .tl-content').forEach(el => {
+            el.addEventListener('mouseenter', () => { ring.style.transform = 'scale(1.5)'; ring.style.borderColor = 'rgba(0,229,255,.8)'; });
+            el.addEventListener('mouseleave', () => { ring.style.transform = 'scale(1)'; ring.style.borderColor = 'rgba(0,229,255,.5)'; });
+        });
+
+        // ===== 导航滚动效果 =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== 打字机 =====
+        const texts = [
+            '数据驱动决策，用户至上',
+            '从需求洞察到产品落地',
+            '让复杂变简单，让体验更优雅',
+            'AI + 产品 = 无限可能'
         ];
-        let typewriterIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const typewriterElement = document.getElementById('typewriter-text');
-        
-        function typewriter() {
-            const currentText = typewriterTexts[typewriterIndex];
-            
-            if (isDeleting) {
-                typewriterElement.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typewriterElement.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            
-            let typeSpeed = isDeleting ? 30 : 80;
-            
-            if (!isDeleting && charIndex === currentText.length) {
-                typeSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                typewriterIndex = (typewriterIndex + 1) % typewriterTexts.length;
-                typeSpeed = 500;
-            }
-            
-            setTimeout(typewriter, typeSpeed);
+        let textIdx = 0, charIdx = 0, isDeleting = false;
+        const twEl = document.getElementById('typewriter');
+
+        function typewrite() {
+            const cur = texts[textIdx];
+            twEl.textContent = cur.substring(0, charIdx + (isDeleting ? -1 : 1));
+            if (!isDeleting) charIdx++; else charIdx--;
+            let speed = isDeleting ? 30 : 70;
+            if (!isDeleting && charIdx === cur.length) { speed = 2500; isDeleting = true; }
+            else if (isDeleting && charIdx === 0) { isDeleting = false; textIdx = (textIdx + 1) % texts.length; speed = 400; }
+            setTimeout(typewrite, speed);
         }
-        
-        typewriter();
-        
-        // 数字动画
+        typewrite();
+
+        // ===== 数字动画 =====
         function animateNumbers() {
-            const numbers = document.querySelectorAll('.stat-number');
-            numbers.forEach(num => {
-                const target = parseInt(num.getAttribute('data-target'));
+            document.querySelectorAll('.stat-number').forEach(el => {
+                const target = +el.dataset.target;
                 const duration = 2000;
-                const start = 0;
-                const increment = target / (duration / 16);
-                let current = start;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        num.textContent = target + '+';
-                        clearInterval(timer);
-                    } else {
-                        num.textContent = Math.floor(current);
-                    }
-                }, 16);
+                const start = performance.now();
+                function tick(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+                    el.textContent = Math.floor(target * ease) + '+';
+                    if (progress < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
             });
         }
-        
-        // 技能进度条动画
-        function animateSkillBars() {
-            const progressBars = document.querySelectorAll('.skill-progress');
-            progressBars.forEach(bar => {
-                const width = bar.getAttribute('data-width');
-                bar.style.width = width + '%';
+
+        // ===== 技能条动画 =====
+        function animateSkills() {
+            document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+                bar.style.width = bar.dataset.width + '%';
+                bar.classList.add('active');
             });
         }
-        
-        // 滚动动画
+
+        // ===== Intersection Observer =====
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    if (entry.target.querySelector('.stat-number')) {
-                        animateNumbers();
-                    }
-                    
-                    if (entry.target.querySelector('.skill-progress')) {
-                        setTimeout(animateSkillBars, 300);
-                    }
+                    if (entry.target.id === 'stats') animateNumbers();
+                    if (entry.target.id === 'skills') setTimeout(animateSkills, 300);
                 }
             });
         }, { threshold: 0.1 });
-        
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('.reveal, #stats, #skills').forEach(el => observer.observe(el));
+
+        // ===== 触摸设备隐藏自定义光标 =====
+        if ('ontouchstart' in window) {
+            dot.style.display = 'none';
+            ring.style.display = 'none';
+            document.body.style.cursor = 'auto';
+        }
     </script>
 </body>
 </html>
