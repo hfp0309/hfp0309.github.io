@@ -10,7 +10,7 @@
         :root{
             --bg:#06060b;--bg2:#0c0d13;--bg3:#14151d;
             --text:#f7f8f8;--t2:#c4c9d4;--t3:#6b7084;
-            --accent:#7c5cfc;--accent2:#ff6b9d;--teal:#00d4aa;
+            --accent:#7c5cfc;--accent2:#ff6b9d;--teal:#00d4aa;--blue:#58a6ff;
             --border:rgba(255,255,255,.05);--b2:rgba(255,255,255,.1);
             --font:'Inter',system-ui,-apple-system,sans-serif;
             --mono:'JetBrains Mono',monospace;
@@ -93,9 +93,10 @@
 
         /* ===== METRICS CARDS ===== */
         .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;max-width:1000px;margin-left:auto;margin-right:auto}
-        .metric-card{padding:1.6rem;background:rgba(255,255,255,.018);border:1px solid var(--border);
+        .metric-card{padding:1.6rem;background:rgba(255,255,255,.015);border:1px solid var(--border);
             border-radius:var(--r);transition:all .3s;position:relative;overflow:hidden}
-        .metric-card:hover{background:rgba(255,255,255,.032);border-color:var(--b2);transform:translateY(-3px)}
+        .metric-card .tilt-inner{width:100%;height:100%}
+        .metric-card:hover{background:rgba(255,255,255,.025);border-color:var(--b2)}
         .metric-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:40%;border-radius:0 2px 2px 0;transition:height .4s}
         .metric-card:hover::after{height:60%}
         .metric-card.m1::after{background:var(--accent)}.metric-card.m2::after{background:var(--accent2)}
@@ -116,6 +117,11 @@
 /* ===== 玻璃拟态 ===== */
         .glass{background:rgba(255,255,255,.015);border:1px solid var(--border);
             backdrop-filter:blur(12px);border-radius:var(--r)}
+
+        /* ===== 3D Tilt ===== */
+        .tilt-card{transform-style:preserve-3d;perspective:1000px}
+        .tilt-card .tilt-inner{transition:transform .15s ease-out;will-change:transform}
+        .skill-card:hover,.project-card:hover,.contact-card:hover{transform:translateY(-4px) rotateX(2deg) rotateY(-2deg)}
 
         /* ===== ABOUT ===== */
         .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
@@ -250,32 +256,36 @@
         </section>
 
                 <!-- METRICS -->
-        <div class="metrics-grid">
-            <div class="metric-card m1 reveal">
+        <section id="metrics" style="background:var(--bg2);padding:4rem 2rem 2rem">
+        <div class="sl reveal" style="max-width:1000px;margin:0 auto">00 · 概览</div>
+        <h2 class="st reveal" style="max-width:1000px;margin:0 auto 2rem">产品仪表盘</h2>
+        <div class="metrics-grid" style="max-width:1000px;margin:0 auto">
+            <div class="metric-card m1 reveal tilt-card"><div class="tilt-inner">
                 <div class="metric-value">4<span class="metric-unit">年</span></div>
                 <div class="metric-label">产品经验年限</div>
                 <div class="metric-change up">▲ ERP/CRM/IAM/电商</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="100"></div></div>
-            </div>
-            <div class="metric-card m2 reveal d1">
+            </div></div>
+            <div class="metric-card m2 reveal d1 tilt-card"><div class="tilt-inner">
                 <div class="metric-value">12<span class="metric-unit">个</span></div>
                 <div class="metric-label">主导项目数</div>
                 <div class="metric-change up">▲ 覆盖 B端SaaS 多领域</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="90"></div></div>
-            </div>
-            <div class="metric-card m3 reveal d2">
+            </div></div>
+            <div class="metric-card m3 reveal d2 tilt-card"><div class="tilt-inner">
                 <div class="metric-value">50<span class="metric-unit">+</span></div>
                 <div class="metric-label">产品文档输出</div>
                 <div class="metric-change up">▲ PRD / BRD / MRD</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="85"></div></div>
-            </div>
-            <div class="metric-card m4 reveal d3">
+            </div></div>
+            <div class="metric-card m4 reveal d3 tilt-card"><div class="tilt-inner">
                 <div class="metric-value">3<span class="metric-unit">个</span></div>
                 <div class="metric-label">从0到1产品</div>
                 <div class="metric-change up">▲ 全生命周期管理</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="75"></div></div>
-            </div>
+            </div></div>
         </div>
+        </section>
 
 
 
@@ -464,14 +474,25 @@
     const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('on')}),{threshold:.1});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-    // ===== 环形仪表盘动画 =====
+    // ===== 进度条动画 =====
     const rObs=new IntersectionObserver(e=>{
         e.forEach(en=>{if(en.isIntersecting){
-            en.target.querySelectorAll('.mini-progress-bar').forEach(b=>b.style.width=b.dataset.pct+'%')
             en.target.querySelectorAll('.mini-progress-bar').forEach(b=>b.style.width=b.dataset.pct+'%')
         }})
     },{threshold:.15});
     document.querySelectorAll('.metric-card').forEach(el=>rObs.observe(el));
+
+    // ===== 3D Tilt 效果 =====
+    document.querySelectorAll('.tilt-card').forEach(card=>{
+        card.addEventListener('mousemove',e=>{
+            const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+            const rx=((y-r.height/2)/r.height*2)*12,ry=-((x-r.width/2)/r.width*2)*12;
+            card.querySelector('.tilt-inner').style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+        card.addEventListener('mouseleave',()=>{
+            card.querySelector('.tilt-inner').style.transform='rotateX(0) rotateY(0)';
+        });
+    });
 
     // ===== 技能条 =====
     const sObs=new IntersectionObserver(e=>{
