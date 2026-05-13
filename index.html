@@ -91,25 +91,29 @@
         .st{font-size:1.9rem;font-weight:500;color:var(--text);text-align:center;letter-spacing:-.02em;margin-bottom:.6rem}
         .sline{width:36px;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin:0 auto 3rem;border-radius:1px}
 
-        /* ===== STATS 仪表盘 ===== */
-        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:0 2rem 4rem;max-width:1000px;margin:0 auto}
-        .stat-card{text-align:center;padding:2rem 1rem;background:linear-gradient(145deg,rgba(124,92,252,.03),rgba(255,107,157,.03));
-            border:1px solid var(--border);border-radius:var(--r);backdrop-filter:blur(10px);transition:all .3s;position:relative;overflow:hidden}
-        .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-            background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .4s}
-        .stat-card:hover{border-color:var(--b2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
-        .stat-card:hover::before{opacity:1}
-        .stat-ring{position:relative;width:72px;height:72px;margin:0 auto 1rem}
-        .stat-ring svg{transform:rotate(-90deg);overflow:visible}
-        .sr-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:3}
-        .sr-fill{fill:none;stroke-linecap:round;stroke-width:3;
-            stroke-dasharray:207;stroke-dashoffset:207;transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1)}
-        .sr-fill.a{stroke:var(--accent)}.sr-fill.b{stroke:var(--accent2)}.sr-fill.c{stroke:var(--teal)}
-        .stat-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-            font-weight:600;font-size:1.15rem;color:var(--text)}
-        .stat-label{font-size:.78rem;color:var(--t3);margin-top:0}
+        /* ===== METRICS CARDS ===== */
+        .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;max-width:1000px;margin-left:auto;margin-right:auto}
+        .metric-card{padding:1.6rem;background:rgba(255,255,255,.018);border:1px solid var(--border);
+            border-radius:var(--r);transition:all .3s;position:relative;overflow:hidden}
+        .metric-card:hover{background:rgba(255,255,255,.032);border-color:var(--b2);transform:translateY(-3px)}
+        .metric-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:40%;border-radius:0 2px 2px 0;transition:height .4s}
+        .metric-card:hover::after{height:60%}
+        .metric-card.m1::after{background:var(--accent)}.metric-card.m2::after{background:var(--accent2)}
+        .metric-card.m3::after{background:var(--teal)}.metric-card.m4::after{background:var(--blue)}
+        .metric-value{font-size:2.4rem;font-weight:800;line-height:1;margin-bottom:.2rem;letter-spacing:-.02em}
+        .metric-card.m1 .metric-value{color:var(--accent)}.metric-card.m2 .metric-value{color:var(--accent2)}
+        .metric-card.m3 .metric-value{color:var(--teal)}.metric-card.m4 .metric-value{color:var(--blue)}
+        .metric-unit{font-size:.9rem;font-weight:400;opacity:.4}
+        .metric-label{font-size:.75rem;color:var(--t2);margin-bottom:.8rem}
+        .metric-change{font-size:.64rem}.up{color:#3fb950}.down{color:#f85149}
+        .mini-progress{height:3px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden}
+        .mini-progress-bar{height:100%;border-radius:2px;width:0;transition:width 1.6s cubic-bezier(.22,1,.36,1)}
+        .metric-card.m1 .mini-progress-bar{background:var(--accent)}
+        .metric-card.m2 .mini-progress-bar{background:var(--accent2)}
+        .metric-card.m3 .mini-progress-bar{background:var(--teal)}
+        .metric-card.m4 .mini-progress-bar{background:var(--blue)}
 
-        /* ===== 玻璃拟态 ===== */
+/* ===== 玻璃拟态 ===== */
         .glass{background:rgba(255,255,255,.015);border:1px solid var(--border);
             backdrop-filter:blur(12px);border-radius:var(--r)}
 
@@ -207,11 +211,11 @@
         @media(max-width:768px){
             .hero{min-height:70vh}.hero h1{font-size:2.2rem}
             .nav-links{gap:1rem}.nav-links a{font-size:.75rem}
-            .about-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
+            .about-grid{grid-template-columns:1fr}.metrics-grid{grid-template-columns:repeat(2,1fr)}
             .tl-item{padding-left:42px}.tl-dot{left:9px}
             section{padding:3.5rem 1.2rem}
         }
-        @media(max-width:480px){.stats{grid-template-columns:1fr}}
+        @media(max-width:480px){.metrics-grid{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
@@ -245,25 +249,35 @@
             <div class="scroll-hint"><span>scroll</span><div class="scroll-bar"></div></div>
         </section>
 
-        <!-- STATS -->
-        <div class="stats">
-            <div class="stat-card reveal">
-                <div class="stat-ring"><svg viewBox="0 0 74 74"><circle class="sr-bg" cx="37" cy="37" r="33"/><circle class="sr-fill a" cx="37" cy="37" r="33" data-pct="100"/></svg><div class="stat-num">4</div></div>
-                <div class="stat-label">年产品经验</div>
+                <!-- METRICS -->
+        <div class="metrics-grid">
+            <div class="metric-card m1 reveal">
+                <div class="metric-value">4<span class="metric-unit">年</span></div>
+                <div class="metric-label">产品经验年限</div>
+                <div class="metric-change up">▲ ERP/CRM/IAM/电商</div>
+                <div class="mini-progress"><div class="mini-progress-bar" data-pct="100"></div></div>
             </div>
-            <div class="stat-card reveal d1">
-                <div class="stat-ring"><svg viewBox="0 0 74 74"><circle class="sr-bg" cx="37" cy="37" r="33"/><circle class="sr-fill b" cx="37" cy="37" r="33" data-pct="90"/></svg><div class="stat-num">12</div></div>
-                <div class="stat-label">主导项目数</div>
+            <div class="metric-card m2 reveal d1">
+                <div class="metric-value">12<span class="metric-unit">个</span></div>
+                <div class="metric-label">主导项目数</div>
+                <div class="metric-change up">▲ 覆盖 B端SaaS 多领域</div>
+                <div class="mini-progress"><div class="mini-progress-bar" data-pct="90"></div></div>
             </div>
-            <div class="stat-card reveal d2">
-                <div class="stat-ring"><svg viewBox="0 0 74 74"><circle class="sr-bg" cx="37" cy="37" r="33"/><circle class="sr-fill c" cx="37" cy="37" r="33" data-pct="85"/></svg><div class="stat-num">50</div></div>
-                <div class="stat-label">产品文档输出</div>
+            <div class="metric-card m3 reveal d2">
+                <div class="metric-value">50<span class="metric-unit">+</span></div>
+                <div class="metric-label">产品文档输出</div>
+                <div class="metric-change up">▲ PRD / BRD / MRD</div>
+                <div class="mini-progress"><div class="mini-progress-bar" data-pct="85"></div></div>
             </div>
-            <div class="stat-card reveal d3">
-                <div class="stat-ring"><svg viewBox="0 0 74 74"><circle class="sr-bg" cx="37" cy="37" r="33"/><circle class="sr-fill a" cx="37" cy="37" r="33" data-pct="75"/></svg><div class="stat-num">3</div></div>
-                <div class="stat-label">从0到1产品</div>
+            <div class="metric-card m4 reveal d3">
+                <div class="metric-value">3<span class="metric-unit">个</span></div>
+                <div class="metric-label">从0到1产品</div>
+                <div class="metric-change up">▲ 全生命周期管理</div>
+                <div class="mini-progress"><div class="mini-progress-bar" data-pct="75"></div></div>
             </div>
         </div>
+
+
 
         <!-- ABOUT -->
         <section id="about" style="background:var(--bg2)">
@@ -453,14 +467,11 @@
     // ===== 环形仪表盘动画 =====
     const rObs=new IntersectionObserver(e=>{
         e.forEach(en=>{if(en.isIntersecting){
-            const circ=2*Math.PI*33;
-            en.target.querySelectorAll('.sr-fill').forEach(r=>{
-                const pct=parseFloat(r.dataset.pct)/100;
-                r.style.strokeDashoffset=circ*(1-pct*.9)
-            })
+            en.target.querySelectorAll('.mini-progress-bar').forEach(b=>b.style.width=b.dataset.pct+'%')
+            en.target.querySelectorAll('.mini-progress-bar').forEach(b=>b.style.width=b.dataset.pct+'%')
         }})
     },{threshold:.15});
-    document.querySelectorAll('.stat-card').forEach(el=>rObs.observe(el));
+    document.querySelectorAll('.metric-card').forEach(el=>rObs.observe(el));
 
     // ===== 技能条 =====
     const sObs=new IntersectionObserver(e=>{
