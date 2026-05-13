@@ -479,20 +479,32 @@
     },{threshold:.15});
     document.querySelectorAll('.metric-card').forEach(el=>rObs.observe(el));
 
-    // ===== 视差滚动（新增装饰粒子） =====
+    // ===== 光标拖尾光点轨迹 =====
     (()=>{
-        const container=document.querySelector('.main');
-        const dots=[];
-        for(let i=0;i<15;i++){
+        const trail=[];
+        const colors=['var(--accent)','var(--accent2)','var(--teal)','var(--blue)'];
+        let mx=0,my=0,lastT=0;
+        document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastT=Date.now()});
+        function spawn(){
+            if(Date.now()-lastT>200)return requestAnimationFrame(spawn);
             const d=document.createElement('div');
-            d.style.cssText=`position:absolute;width:${Math.random()*3+2}px;height:${Math.random()*3+2}px;background:var(--accent);border-radius:50%;pointer-events:none;opacity:${Math.random()*.08+.02};top:${Math.random()*100}%;left:${Math.random()*100}%;z-index:0`;
-            container.appendChild(d);
-            dots.push({el:d,speed:Math.random()*.05+.01});
+            d.style.cssText=`position:fixed;width:6px;height:6px;background:${colors[Math.floor(Math.random()*4)]};border-radius:50%;pointer-events:none;z-index:9999;left:${mx}px;top:${my}px;opacity:.7;transform:translate(-50%,-50%);box-shadow:0 0 10px ${colors[Math.floor(Math.random()*4)]}`;
+            document.body.appendChild(d);
+            d._born=Date.now();
+            trail.push(d);
+            requestAnimationFrame(spawn);
         }
-        window.addEventListener('scroll',()=>{
-            const sy=window.scrollY||document.documentElement.scrollTop;
-            dots.forEach(d=>{d.el.style.transform=`translateY(${sy*d.speed}px)`})
-        },{passive:true});
+        spawn();
+        function cleanup(){
+            const now=Date.now();
+            for(let i=trail.length-1;i>=0;i--){
+                const t=trail[i],age=now-t._born;
+                if(age>800){t.remove();trail.splice(i,1)}
+                else{t.style.opacity=.7*(1-age/800);t.style.transform=`translate(-50%,-50%) scale(${1-age/800})`}
+            }
+            requestAnimationFrame(cleanup);
+        }
+        cleanup();
     })();
 
     // ===== 技能条 =====
