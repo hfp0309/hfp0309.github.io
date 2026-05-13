@@ -118,10 +118,7 @@
         .glass{background:rgba(255,255,255,.015);border:1px solid var(--border);
             backdrop-filter:blur(12px);border-radius:var(--r)}
 
-        /* ===== 3D Tilt ===== */
-        .tilt-card{transform-style:preserve-3d;perspective:1000px}
-        .tilt-card .tilt-inner{transition:transform .15s ease-out;will-change:transform}
-        .skill-card:hover,.project-card:hover,.contact-card:hover{transform:translateY(-4px) rotateX(2deg) rotateY(-2deg)}
+        .skill-card:hover,.project-card:hover,.contact-card:hover{transform:translateY(-4px)}
 
         /* ===== ABOUT ===== */
         .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
@@ -260,30 +257,30 @@
         <div class="sl reveal" style="max-width:1000px;margin:0 auto">00 · 概览</div>
         <h2 class="st reveal" style="max-width:1000px;margin:0 auto 2rem">产品仪表盘</h2>
         <div class="metrics-grid" style="max-width:1000px;margin:0 auto">
-            <div class="metric-card m1 reveal tilt-card"><div class="tilt-inner">
+            <div class="metric-card m1 reveal">
                 <div class="metric-value">4<span class="metric-unit">年</span></div>
                 <div class="metric-label">产品经验年限</div>
                 <div class="metric-change up">▲ ERP/CRM/IAM/电商</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="100"></div></div>
-            </div></div>
-            <div class="metric-card m2 reveal d1 tilt-card"><div class="tilt-inner">
+            </div>
+            <div class="metric-card m2 reveal d1">
                 <div class="metric-value">12<span class="metric-unit">个</span></div>
                 <div class="metric-label">主导项目数</div>
                 <div class="metric-change up">▲ 覆盖 B端SaaS 多领域</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="90"></div></div>
-            </div></div>
-            <div class="metric-card m3 reveal d2 tilt-card"><div class="tilt-inner">
+            </div>
+            <div class="metric-card m3 reveal d2">
                 <div class="metric-value">50<span class="metric-unit">+</span></div>
                 <div class="metric-label">产品文档输出</div>
                 <div class="metric-change up">▲ PRD / BRD / MRD</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="85"></div></div>
-            </div></div>
-            <div class="metric-card m4 reveal d3 tilt-card"><div class="tilt-inner">
+            </div>
+            <div class="metric-card m4 reveal d3">
                 <div class="metric-value">3<span class="metric-unit">个</span></div>
                 <div class="metric-label">从0到1产品</div>
                 <div class="metric-change up">▲ 全生命周期管理</div>
                 <div class="mini-progress"><div class="mini-progress-bar" data-pct="75"></div></div>
-            </div></div>
+            </div>
         </div>
         </section>
 
@@ -482,17 +479,21 @@
     },{threshold:.15});
     document.querySelectorAll('.metric-card').forEach(el=>rObs.observe(el));
 
-    // ===== 3D Tilt 效果 =====
-    document.querySelectorAll('.tilt-card').forEach(card=>{
-        card.addEventListener('mousemove',e=>{
-            const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-            const rx=((y-r.height/2)/r.height*2)*12,ry=-((x-r.width/2)/r.width*2)*12;
-            card.querySelector('.tilt-inner').style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
-        });
-        card.addEventListener('mouseleave',()=>{
-            card.querySelector('.tilt-inner').style.transform='rotateX(0) rotateY(0)';
-        });
-    });
+    // ===== 视差滚动（新增装饰粒子） =====
+    (()=>{
+        const container=document.querySelector('.main');
+        const dots=[];
+        for(let i=0;i<15;i++){
+            const d=document.createElement('div');
+            d.style.cssText=`position:absolute;width:${Math.random()*3+2}px;height:${Math.random()*3+2}px;background:var(--accent);border-radius:50%;pointer-events:none;opacity:${Math.random()*.08+.02};top:${Math.random()*100}%;left:${Math.random()*100}%;z-index:0`;
+            container.appendChild(d);
+            dots.push({el:d,speed:Math.random()*.05+.01});
+        }
+        window.addEventListener('scroll',()=>{
+            const sy=window.scrollY||document.documentElement.scrollTop;
+            dots.forEach(d=>{d.el.style.transform=`translateY(${sy*d.speed}px)`})
+        },{passive:true});
+    })();
 
     // ===== 技能条 =====
     const sObs=new IntersectionObserver(e=>{
